@@ -1,16 +1,13 @@
-# houseplant_helper
+# Houseplant Helper
 
-A new Flutter project.
+I have 8 plant children whom I love dearly but sometimes forget to care for properly due to my university workload. To record any information regarding their care, their watering schedule, and other facts about the plants, I am creating an app, primarily to notify me when they should be watered according to each plant's specific care.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## What I am learning through this
 
-A few resources to get you started if this is your first Flutter project:
+This is my first app that I am developing, primarily intended for desktop use. However, I aim to also make this available for an IOS phone app. I want to learn how to use Flutter, the programming language of Dart, how to publish this app, and understand how to add new features. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Moreover, I am particularly interested in UI as I completed a visual arts program in high school, I want to learn how to make apps as intuitive as possible. 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Since this is primarily intended for personal use, I will take great enjoyment for learning.
+
