@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'plant.dart';
+import 'package:flutter/services.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
@@ -66,6 +67,116 @@ class _AddPlantViewState extends State<AddPlantView> {
                 return null;
               },
 
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Care Instructions'),
+              onSaved: (value) {
+                newPlant.careInstructions = value!;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter care instructions';
+                }
+              },
+            ),
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(labelText: 'Last Watered'),
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (date != null) {
+                  setState(() {
+                    newPlant.lastWatered = date;
+                  });
+                }
+              },
+
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              onSaved: (value) {
+                newPlant.waterFrequency = int.tryParse(value ?? '0') ?? 0;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter an watering frequency';
+                }
+                if (int.parse(value ?? '0') <= 0 || int.tryParse(value ?? '0') == null) {
+                  return 'Please enter a valid watering frequency';
+                }
+                return null;
+              },
+
+            ),
+            
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(labelText: 'Last Soil Change'),
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (date != null) {
+                  setState(() {
+                    newPlant.lastSoilChange = date;
+                  });
+                }
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              onSaved: (value) {
+                newPlant.soilFrequency = int.tryParse(value ?? '0');
+              },
+            ), 
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(labelText: 'Last Fertilized'),
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (date != null) {
+                  setState(() {
+                    newPlant.lastFertilized = date;
+                  });
+                }
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              onSaved: (value) {
+                newPlant.fertilizeFrequency = int.tryParse(value ?? '0');
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Image URL'),
+              onSaved: (value) {
+                newPlant.imageUrl = value;
+              },
             ),
 
           ])
