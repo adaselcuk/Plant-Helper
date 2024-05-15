@@ -31,7 +31,7 @@ class PlantHelperApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload
-        primarySwatch: const Color.fromARGB(255, 160, 207, 162),
+        primarySwatch: Color.fromARGB(255, 172, 236, 175),
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 168, 204, 153)),
         useMaterial3: true,
