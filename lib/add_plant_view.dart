@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'plant.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
   @override
-  _AddPlantViewState createState() => _AddPLantViewState();
+  _AddPlantViewState createState() => _AddPlantViewState();
 }
 
 class _AddPlantViewState extends State<AddPlantView> {
@@ -19,6 +21,15 @@ class _AddPlantViewState extends State<AddPlantView> {
     waterFrequency: 7,);
     // initialized plant with default values
 
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker(); //underscore in Dart represents the variable is private
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery); // XFile because can get path from the file class
+    if (image != null) {
+      setState(() {
+        newPlant.image = File(image.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,16 +183,13 @@ class _AddPlantViewState extends State<AddPlantView> {
                 newPlant.fertilizeFrequency = int.tryParse(value ?? '0');
               },
             ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Image URL'),
-              onSaved: (value) {
-                newPlant.imageUrl = value;
-              },
-            ),
-
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: Text('Add Image'),
+            )
           ])
         )
-    )
+    );
   }
   
 }

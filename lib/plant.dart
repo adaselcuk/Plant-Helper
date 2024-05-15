@@ -1,8 +1,10 @@
+import 'dart:io';
+
 class Plant {
   String name;
   String id;
   String description;
-  String? imageUrl;
+  File? image;
   String careInstructions;
   DateTime lastWatered;
   int waterFrequency;
@@ -14,6 +16,6 @@ class Plant {
   Plant({required this.name, required this.id, required this.description, 
   required this.careInstructions, required this.lastWatered, 
   required this.waterFrequency,
-  this.imageUrl, this.lastSoilChange, this.soilFrequency,
+  this.image, this.lastSoilChange, this.soilFrequency,
   this.lastFertilized, this.fertilizeFrequency});
 }
