@@ -63,170 +63,176 @@ class _AddPlantViewState extends State<AddPlantView> {
       appBar: AppBar(
         title: Text('Add Plant'),
       ), 
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-              onSaved: (value) {
-                newPlant.name = value!;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a name';
-                }
-                return null;
-              },
+      body: Padding(
+        padding: EdgeInsets.all(8.0), // added padding to add negative space - cleaner look
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView( // scrolling added to the form
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(labelText: 'Name'),
+                onSaved: (value) {
+                  newPlant.name = value!;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a name';
+                  }
+                  return null;
+                },
 
-            ),
-            TextFormField(
-              controller: _idController,
-              decoration: InputDecoration(labelText: 'ID (Scientific name)'),
-              onSaved: (value) {
-                newPlant.id = value!;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter an ID';
-                }
-                return null;
-              },
+              ),
+              TextFormField(
+                controller: _idController,
+                decoration: InputDecoration(labelText: 'ID (Scientific name)'),
+                onSaved: (value) {
+                  newPlant.id = value!;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an ID';
+                  }
+                  return null;
+                },
 
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-              onSaved: (value) {
-                newPlant.description = value!;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a description';
-                }
-                return null;
-              },
+              ),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
+                onSaved: (value) {
+                  newPlant.description = value!;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
 
-            ),
-            TextFormField(
-              controller: _careInstructionsController,
-              decoration: InputDecoration(labelText: 'Care Instructions'),
-              onSaved: (value) {
-                newPlant.careInstructions = value!;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter care instructions';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _lastWateredController,
-              readOnly: true,
-              decoration: InputDecoration(labelText: 'Last Watered'),
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-                if (date != null) {
-                  setState(() {
-                    newPlant.lastWatered = date;
-                  });
-                }
-              },
+              ),
+              TextFormField(
+                controller: _careInstructionsController,
+                decoration: InputDecoration(labelText: 'Care Instructions'),
+                onSaved: (value) {
+                  newPlant.careInstructions = value!;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter care instructions';
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _lastWateredController,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'Last Watered'),
+                onTap: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      newPlant.lastWatered = date;
+                    });
+                  }
+                },
 
-            ),
-            TextFormField(
-              controller: _waterFrequencyController,
-              decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onSaved: (value) {
-                newPlant.waterFrequency = int.tryParse(value ?? '0') ?? 0;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter an watering frequency';
-                }
-                if (int.parse(value ?? '0') <= 0 || int.tryParse(value ?? '0') == null) {
-                  return 'Please enter a valid watering frequency';
-                }
-                return null;
-              },
+              ),
+              TextFormField(
+                controller: _waterFrequencyController,
+                decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                onSaved: (value) {
+                  newPlant.waterFrequency = int.tryParse(value ?? '0') ?? 0;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an watering frequency';
+                  }
+                  if (int.parse(value ?? '0') <= 0 || int.tryParse(value ?? '0') == null) {
+                    return 'Please enter a valid watering frequency';
+                  }
+                  return null;
+                },
 
-            ),
-            
-            TextFormField(
-              controller: _lastSoilChangeController,
-              readOnly: true,
-              decoration: InputDecoration(labelText: 'Last Soil Change'),
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-                if (date != null) {
-                  setState(() {
-                    newPlant.lastSoilChange = date;
-                  });
-                }
-              },
-            ),
-            TextFormField(
-              controller: _soilFrequencyController,
-              decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onSaved: (value) {
-                newPlant.soilFrequency = int.tryParse(value ?? '0');
-              },
-            ), 
-            TextFormField(
-              controller: _lastFertilizedController,
-              readOnly: true,
-              decoration: InputDecoration(labelText: 'Last Fertilized'),
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-                if (date != null) {
-                  setState(() {
-                    newPlant.lastFertilized = date;
-                  });
-                }
-              },
-            ),
-            TextFormField(
-              controller: _fertilizeFrequencyController,
-              decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onSaved: (value) {
-                newPlant.fertilizeFrequency = int.tryParse(value ?? '0');
-              },
-            ),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: Text('Add Image'),
-            )
-          ])
+              ),
+              
+              TextFormField(
+                controller: _lastSoilChangeController,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'Last Soil Change'),
+                onTap: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      newPlant.lastSoilChange = date;
+                    });
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _soilFrequencyController,
+                decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                onSaved: (value) {
+                  newPlant.soilFrequency = int.tryParse(value ?? '0');
+                },
+              ), 
+              TextFormField(
+                controller: _lastFertilizedController,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'Last Fertilized'),
+                onTap: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      newPlant.lastFertilized = date;
+                    });
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _fertilizeFrequencyController,
+                decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                onSaved: (value) {
+                  newPlant.fertilizeFrequency = int.tryParse(value ?? '0');
+                },
+              ),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('Add Image'),
+              )
+            ])
+          )
         )
+      )
     );
+      
   }
   
 }
