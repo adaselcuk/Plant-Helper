@@ -6,12 +6,39 @@ import 'dart:io';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
+  AddPlantView({required this.addPlant});
   @override
   _AddPlantViewState createState() => _AddPlantViewState();
 }
 
 class _AddPlantViewState extends State<AddPlantView> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController(); // this makes the text field controlled and editable if user wants to edit
+  final _idController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _careInstructionsController = TextEditingController();
+  final _lastWateredController = TextEditingController();
+  final _waterFrequencyController = TextEditingController();
+  final _lastSoilChangeController = TextEditingController();
+  final _soilFrequencyController = TextEditingController();
+  final _lastFertilizedController = TextEditingController();
+  final _fertilizeFrequencyController = TextEditingController();
+
+  @override
+  void dispose() { // disposing the controllers to free up memory - memory leaks avoided
+    _nameController.dispose();
+    _idController.dispose();
+    _descriptionController.dispose();
+    _careInstructionsController.dispose();
+    _lastWateredController.dispose();
+    _waterFrequencyController.dispose();
+    _lastSoilChangeController.dispose();
+    _soilFrequencyController.dispose();
+    _lastFertilizedController.dispose();
+    _fertilizeFrequencyController.dispose();
+    super.dispose();
+  }
+  
   Plant newPlant = Plant(
     name: '',
     id: '',
@@ -41,6 +68,7 @@ class _AddPlantViewState extends State<AddPlantView> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              controller: _nameController,
               decoration: InputDecoration(labelText: 'Name'),
               onSaved: (value) {
                 newPlant.name = value!;
@@ -54,6 +82,7 @@ class _AddPlantViewState extends State<AddPlantView> {
 
             ),
             TextFormField(
+              controller: _idController,
               decoration: InputDecoration(labelText: 'ID (Scientific name)'),
               onSaved: (value) {
                 newPlant.id = value!;
@@ -67,6 +96,7 @@ class _AddPlantViewState extends State<AddPlantView> {
 
             ),
             TextFormField(
+              controller: _descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
               onSaved: (value) {
                 newPlant.description = value!;
@@ -80,6 +110,7 @@ class _AddPlantViewState extends State<AddPlantView> {
 
             ),
             TextFormField(
+              controller: _careInstructionsController,
               decoration: InputDecoration(labelText: 'Care Instructions'),
               onSaved: (value) {
                 newPlant.careInstructions = value!;
@@ -91,6 +122,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               },
             ),
             TextFormField(
+              controller: _lastWateredController,
               readOnly: true,
               decoration: InputDecoration(labelText: 'Last Watered'),
               onTap: () async {
@@ -109,6 +141,7 @@ class _AddPlantViewState extends State<AddPlantView> {
 
             ),
             TextFormField(
+              controller: _waterFrequencyController,
               decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -130,6 +163,7 @@ class _AddPlantViewState extends State<AddPlantView> {
             ),
             
             TextFormField(
+              controller: _lastSoilChangeController,
               readOnly: true,
               decoration: InputDecoration(labelText: 'Last Soil Change'),
               onTap: () async {
@@ -147,6 +181,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               },
             ),
             TextFormField(
+              controller: _soilFrequencyController,
               decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -157,6 +192,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               },
             ), 
             TextFormField(
+              controller: _lastFertilizedController,
               readOnly: true,
               decoration: InputDecoration(labelText: 'Last Fertilized'),
               onTap: () async {
@@ -174,6 +210,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               },
             ),
             TextFormField(
+              controller: _fertilizeFrequencyController,
               decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
