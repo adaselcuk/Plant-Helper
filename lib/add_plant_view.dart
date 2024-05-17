@@ -25,7 +25,8 @@ class _AddPlantViewState extends State<AddPlantView> {
   final _fertilizeFrequencyController = TextEditingController();
 
   @override
-  void dispose() { // disposing the controllers to free up memory - memory leaks avoided
+  void dispose() { 
+    // disposing the controllers to free up memory - memory leaks avoided
     _nameController.dispose();
     _idController.dispose();
     _descriptionController.dispose();
@@ -151,13 +152,15 @@ class _AddPlantViewState extends State<AddPlantView> {
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.waterFrequency = int.tryParse(value ?? '0') ?? 0;
+                  // made 7 the default value for watering plants if user doesn't enter anything
+                  newPlant.waterFrequency = int.tryParse(value ?? '7') ?? 7;
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an watering frequency';
                   }
-                  if (int.parse(value ?? '0') <= 0 || int.tryParse(value ?? '0') == null) {
+                  var parsedValue = int.tryParse(value);
+                  if ( parsedValue == null || parsedValue <= 0) {
                     return 'Please enter a valid watering frequency';
                   }
                   return null;
