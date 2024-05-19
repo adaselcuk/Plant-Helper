@@ -229,6 +229,15 @@ class _AddPlantViewState extends State<AddPlantView> {
               ElevatedButton(
                 onPressed: _pickImage,
                 child: Text('Add Image'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    widget.addPlant(newPlant);
+                  }
+                },
+                child: Text('Submit'),
               )
             ])
           )
