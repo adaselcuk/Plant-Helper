@@ -32,19 +32,29 @@ class _AddPlantViewState extends State<AddPlantView> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Plant newPlant = Plant(
-        name: _nameController.text,
-        id: _idController.text,
-        description: _descriptionController.text,
-        careInstructions: _careInstructionsController.text,
-        lastWatered: DateTime.parse(_lastWateredController.text),
-        waterFrequency: int.parse(_waterFrequencyController.text),
-        lastSoilChange: DateTime.parse(_lastSoilChangeController.text),
-        soilFrequency: int.parse(_soilFrequencyController.text),
-        lastFertilized: DateTime.parse(_lastFertilizedController.text),
-        fertilizeFrequency: int.parse(_fertilizeFrequencyController.text),
-      );
-      widget.addPlant(newPlant);
+      // Plant newPlant = Plant(
+      //   name: _nameController.text,
+      //   id: _idController.text,
+      //   description: _descriptionController.text,
+      //   careInstructions: _careInstructionsController.text,
+      //   lastWatered: DateTime.parse(_lastWateredController.text),
+      //   waterFrequency: int.parse(_waterFrequencyController.text),
+      //   lastSoilChange: DateTime.parse(_lastSoilChangeController.text),
+      //   soilFrequency: int.parse(_soilFrequencyController.text),
+      //   lastFertilized: DateTime.parse(_lastFertilizedController.text),
+      //   fertilizeFrequency: int.parse(_fertilizeFrequencyController.text),
+      // );
+      FormData formData = FormData();
+      formData.updateName(_nameController.text);
+      formData.updateId(_idController.text);
+      formData.updateDescription(_descriptionController.text);
+      formData.updateCareInstructions(_careInstructionsController.text);
+      formData.updateLastWatered(DateTime.parse(_lastWateredController.text));
+      formData.updateWaterFrequency(int.parse(_waterFrequencyController.text));
+      formData.updateLastSoilChange(DateTime.parse(_lastSoilChangeController.text));
+      formData.updateLastFertilized(DateTime.parse(_lastFertilizedController.text));
+      formData.updateFertilizeFrequency(int.parse(_fertilizeFrequencyController.text));
+      Provider.of<PlantList>(context, listen: false).addPlant(newPlant);
     }
   }
 
