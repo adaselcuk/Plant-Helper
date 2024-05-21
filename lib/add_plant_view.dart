@@ -126,6 +126,9 @@ class _AddPlantViewState extends State<AddPlantView> {
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Description'),
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 5,
                 onSaved: (value) {
                   newPlant.description = value!;
                 },
@@ -140,6 +143,9 @@ class _AddPlantViewState extends State<AddPlantView> {
               TextFormField(
                 controller: _careInstructionsController,
                 decoration: InputDecoration(labelText: 'Care Instructions'),
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 5,
                 onSaved: (value) {
                   newPlant.careInstructions = value!;
                 },
@@ -270,14 +276,17 @@ class _AddPlantViewState extends State<AddPlantView> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _pickImage,
                 child: Text('Add Image'),
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
                 child: Text('Submit to add plant'),
-              )
+              ),
+              SizedBox(height: 20),
             ])
           )
         )
