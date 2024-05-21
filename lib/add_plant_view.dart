@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'form_data.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
