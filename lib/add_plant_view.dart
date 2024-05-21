@@ -196,7 +196,7 @@ class _AddPlantViewState extends State<AddPlantView> {
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.soilFrequency == value == null || value.isEmpty
+                  newPlant.soilFrequency = value == null || value.isEmpty
                   ? null
                   :int.tryParse(value ?? '0');
                 },
