@@ -3,9 +3,19 @@ import 'plant.dart';
 import 'add_plant_view.dart';
 //import 'plant_list_view.dart';
 import 'form_data.dart';
+import 'plant_list.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const PlantHelperApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => FormData()),
+        ChangeNotifierProvider(create: (context) => PlantList()),
+      ],
+      child: PlantHelperApp(),
+    ),
+  );
 }
 
 class PlantHelperApp extends StatelessWidget {
