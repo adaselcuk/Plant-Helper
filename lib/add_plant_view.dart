@@ -95,9 +95,16 @@ class _AddPlantViewState extends State<AddPlantView> {
           child: SingleChildScrollView( // scrolling added to the form
           child: Column(
             children: <Widget>[
+              Text(
+                '* indicates required fields',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 216, 91, 82),
+                ),
+              ),
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(labelText: 'Name *'),
                 onSaved: (value) {
                   newPlant.name = value!;
                 },
@@ -111,7 +118,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               ),
               TextFormField(
                 controller: _idController,
-                decoration: InputDecoration(labelText: 'ID (Scientific name)'),
+                decoration: InputDecoration(labelText: 'ID (Scientific name) *'),
                 onSaved: (value) {
                   newPlant.id = value!;
                 },
@@ -125,7 +132,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(labelText: 'Description *'),
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 5,
@@ -142,7 +149,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               ),
               TextFormField(
                 controller: _careInstructionsController,
-                decoration: InputDecoration(labelText: 'Care Instructions'),
+                decoration: InputDecoration(labelText: 'Care Instructions *'),
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 5,
@@ -158,7 +165,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               TextFormField(
                 controller: _lastWateredController,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'Last Watered'),
+                decoration: InputDecoration(labelText: 'Last Watered *'),
                 onTap: () async {
                   final date = await showDatePicker(
                     context: context,
@@ -176,7 +183,7 @@ class _AddPlantViewState extends State<AddPlantView> {
               if (newPlant.lastWatered != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastWatered!)}'),
               TextFormField(
                 controller: _waterFrequencyController,
-                decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
+                decoration: InputDecoration(labelText: 'Watering Frequency (days) *'),
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
