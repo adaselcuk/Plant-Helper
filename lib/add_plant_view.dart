@@ -5,10 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'form_data.dart';
+import 'package:provider/provider.dart';
+import 'plant_list.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
-  AddPlantView({required this.addPlant});
+  AddPlantView({Key? key, required this.addPlant});
+
   @override
   _AddPlantViewState createState() => _AddPlantViewState();
 }
@@ -25,6 +28,25 @@ class _AddPlantViewState extends State<AddPlantView> {
   final _soilFrequencyController = TextEditingController();
   final _lastFertilizedController = TextEditingController();
   final _fertilizeFrequencyController = TextEditingController();
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Plant newPlant = Plant(
+        name: _nameController.text,
+        id: _idController.text,
+        description: _descriptionController.text,
+        careInstructions: _careInstructionsController.text,
+        lastWatered: DateTime.parse(_lastWateredController.text),
+        waterFrequency: int.parse(_waterFrequencyController.text),
+        lastSoilChange: DateTime.parse(_lastSoilChangeController.text),
+        soilFrequency: int.parse(_soilFrequencyController.text),
+        lastFertilized: DateTime.parse(_lastFertilizedController.text),
+        fertilizeFrequency: int.parse(_fertilizeFrequencyController.text),
+      );
+      widget.addPlant(newPlant);
+    }
+  }
 
   @override
   void dispose() { 
@@ -253,16 +275,8 @@ class _AddPlantViewState extends State<AddPlantView> {
                 child: Text('Add Image'),
               ),
               ElevatedButton(
-                // added onPressed to submit the form
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // does not submit form if there is an invalid field the user entered
-                    _formKey.currentState!.save();
-                    // saves the form with appropriate values
-                    widget.addPlant(newPlant);
-                  }
-                },
-                child: Text('Submit'),
+                onPressed: _submitForm,
+                child: Text('Submit to add plant'),
               )
             ])
           )
