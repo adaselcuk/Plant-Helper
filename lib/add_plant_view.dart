@@ -196,14 +196,13 @@ class _AddPlantViewState extends State<AddPlantView> {
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.soilFrequency = int.tryParse(value ?? '0');
+                  newPlant.soilFrequency == value == null || value.isEmpty
+                  ? null
+                  :int.tryParse(value ?? '0');
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a soil change frequency';
-                  }
-                  var parsedValue = int.tryParse(value);
-                  if ( parsedValue == null || parsedValue <= 0) {
+                  var parsedValue = int.tryParse(value ?? '');
+                  if (parsedValue != null && parsedValue <= 0) {
                     return 'Please enter a valid soil change frequency';
                   }
                   return null;
@@ -236,16 +235,16 @@ class _AddPlantViewState extends State<AddPlantView> {
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.fertilizeFrequency = int.tryParse(value ?? '0');
+                  newPlant.fertilizeFrequency = value == null || value.isEmpty
+                  ? null
+                  :int.tryParse(value ?? '0');
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a fertilizing frequency';
-                  }
-                  var parsedValue = int.tryParse(value);
-                  if ( parsedValue == null || parsedValue <= 0) {
+                  var parsedValue = int.tryParse(value ?? '');
+                  if ( parsedValue != null && parsedValue <= 0) {
                     return 'Please enter a valid fertilizing frequency';
                   }
+                  return null;
                 },
               ),
               ElevatedButton(
