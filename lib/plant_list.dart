@@ -8,11 +8,13 @@ class PlantList extends ChangeNotifier {
 
   void addPlant(Plant plant) {
     _plants.add(plant);
+    print('Plant added: ${plant.name}');
     notifyListeners();
   }
 
   void removePlant(Plant plant) {
     _plants.remove(plant);
+    print('Plant removed: ${plant.name}');
     notifyListeners();
   }
 }

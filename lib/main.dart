@@ -54,7 +54,7 @@ class PlantHelperApp extends StatelessWidget {
         ),
         body: AddPlantView(
           addPlant: (Plant plant) {
-            print('Adding plant: ${plant.name}');
+            Provider.of<PlantList>(context, listen: false).addPlant(plant);
           },
         ),
       ),
