@@ -3,6 +3,7 @@ import 'plant.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
@@ -142,8 +143,8 @@ class _AddPlantViewState extends State<AddPlantView> {
                     });
                   }
                 },
-
               ),
+              if (newPlant.lastWatered != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastWatered!)}'),
               TextFormField(
                 controller: _waterFrequencyController,
                 decoration: InputDecoration(labelText: 'Watering Frequency (days)'),
@@ -186,6 +187,7 @@ class _AddPlantViewState extends State<AddPlantView> {
                   }
                 },
               ),
+              if (newPlant.lastSoilChange != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastSoilChange!)}'),
               TextFormField(
                 controller: _soilFrequencyController,
                 decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
@@ -215,6 +217,7 @@ class _AddPlantViewState extends State<AddPlantView> {
                   }
                 },
               ),
+              if (newPlant.lastFertilized != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastFertilized!)}'),
               TextFormField(
                 controller: _fertilizeFrequencyController,
                 decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
@@ -231,9 +234,12 @@ class _AddPlantViewState extends State<AddPlantView> {
                 child: Text('Add Image'),
               ),
               ElevatedButton(
+                // added onPressed to submit the form
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    // does not submit form if there is an invalid field the user entered
                     _formKey.currentState!.save();
+                    // saves the form with appropriate values
                     widget.addPlant(newPlant);
                   }
                 },
