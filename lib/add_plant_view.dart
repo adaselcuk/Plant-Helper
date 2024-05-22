@@ -172,10 +172,10 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                 ),
               ),
               TextFormField(
-                controller: _nameController,
+                //controller: _nameController,
                 decoration: InputDecoration(labelText: 'Name *'),
                 onSaved: (value) {
-                  newPlant.name = value!;
+                  _formData.updateName(value!);
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -186,10 +186,10 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
               ),
               TextFormField(
-                controller: _idController,
+                //controller: _idController,
                 decoration: InputDecoration(labelText: 'ID (Scientific name) *'),
                 onSaved: (value) {
-                  newPlant.id = value!;
+                  _formData.updateId(value!);
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -200,13 +200,13 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
               ),
               TextFormField(
-                controller: _descriptionController,
+                //controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Description *'),
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 5,
                 onSaved: (value) {
-                  newPlant.description = value!;
+                  _formData.updateDescription(value!);
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -217,13 +217,13 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
               ),
               TextFormField(
-                controller: _careInstructionsController,
+                //controller: _careInstructionsController,
                 decoration: InputDecoration(labelText: 'Care Instructions *'),
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 5,
                 onSaved: (value) {
-                  newPlant.careInstructions = value!;
+                  _formData.updateCareInstructions(value!);
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -232,7 +232,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                 },
               ),
               TextFormField(
-                controller: _lastWateredController,
+                //controller: _lastWateredController,
                 readOnly: true,
                 decoration: InputDecoration(labelText: 'Last Watered *'),
                 onTap: () async {
@@ -244,14 +244,14 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                   );
                   if (date != null) {
                     setState(() {
-                      newPlant.lastWatered = date;
+                      _formData.updateLastWatered(date);
                     });
                   }
                 },
               ),
-              if (newPlant.lastWatered != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastWatered!)}'),
+              if (_formData.lastWatered != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(_formData.lastWatered!)}'),
               TextFormField(
-                controller: _waterFrequencyController,
+                //controller: _waterFrequencyController,
                 decoration: InputDecoration(labelText: 'Watering Frequency (days) *'),
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
@@ -259,7 +259,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                 ],
                 onSaved: (value) {
                   // made 7 the default value for watering plants if user doesn't enter anything
-                  newPlant.waterFrequency = int.tryParse(value ?? '7') ?? 7;
+                  _formData.updateWaterFrequency(int.tryParse(value ?? '7') ?? 7);
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -275,7 +275,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
               ),
               
               TextFormField(
-                controller: _lastSoilChangeController,
+                //controller: _lastSoilChangeController,
                 readOnly: true,
                 decoration: InputDecoration(labelText: 'Last Soil Change'),
                 onTap: () async {
@@ -287,23 +287,23 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                   );
                   if (date != null) {
                     setState(() {
-                      newPlant.lastSoilChange = date;
+                      _formData.updateLastSoilChange(date);
                     });
                   }
                 },
               ),
-              if (newPlant.lastSoilChange != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastSoilChange!)}'),
+              if (_formData.lastSoilChange != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(_formData.lastSoilChange!)}'),
               TextFormField(
-                controller: _soilFrequencyController,
+                //controller: _soilFrequencyController,
                 decoration: InputDecoration(labelText: 'Soil Change Frequency (days)'),
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.soilFrequency = value == null || value.isEmpty
+                  _formData.updateSoilChangeFrequency(value == null || value.isEmpty
                   ? null
-                  :int.tryParse(value ?? '0');
+                  :int.tryParse(value ?? '0'));
                 },
                 validator: (value) {
                   var parsedValue = int.tryParse(value ?? '');
@@ -314,7 +314,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                 },
               ), 
               TextFormField(
-                controller: _lastFertilizedController,
+                //controller: _lastFertilizedController,
                 readOnly: true,
                 decoration: InputDecoration(labelText: 'Last Fertilized'),
                 onTap: () async {
@@ -326,23 +326,23 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                   );
                   if (date != null) {
                     setState(() {
-                      newPlant.lastFertilized = date;
+                      _formData.updateLastFertilized(date);
                     });
                   }
                 },
               ),
-              if (newPlant.lastFertilized != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(newPlant.lastFertilized!)}'),
+              if (_formData.lastFertilized != null) Text('Selected date: ${DateFormat('MM/dd/yyyy').format(_formData.lastFertilized!)}'),
               TextFormField(
-                controller: _fertilizeFrequencyController,
+                //controller: _fertilizeFrequencyController,
                 decoration: InputDecoration(labelText: 'Fertilizing Frequency (days)'),
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onSaved: (value) {
-                  newPlant.fertilizeFrequency = value == null || value.isEmpty
+                  _formData.updateFertilizeFrequency(value == null || value.isEmpty
                   ? null
-                  :int.tryParse(value ?? '0');
+                  :int.tryParse(value ?? '0'));
                 },
                 validator: (value) {
                   var parsedValue = int.tryParse(value ?? '');

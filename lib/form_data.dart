@@ -48,8 +48,8 @@ class FormData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateFertilizeFrequency(int newFertilizeFrequency) {
-    fertilizeFrequency = newFertilizeFrequency;
+  void updateFertilizeFrequency(int? newFertilizeFrequency) {
+    int? fertilizeFrequency = newFertilizeFrequency;
     notifyListeners();
   }
 
@@ -58,8 +58,8 @@ class FormData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSoilChangeFrequency(int newSoilChangeFrequency) {
-    soilChangeFrequency = newSoilChangeFrequency;
+  void updateSoilChangeFrequency(int ?newSoilChangeFrequency) {
+    int? soilChangeFrequency = newSoilChangeFrequency;
     notifyListeners();
   }
 
