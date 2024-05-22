@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'plant.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'form_data.dart';
 import 'package:provider/provider.dart';
 import 'plant_list.dart';
+import 'package:shared_preferences/shared_preferences';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
@@ -16,62 +18,119 @@ class AddPlantView extends StatefulWidget {
   _AddPlantViewState createState() => _AddPlantViewState();
 }
 
-class _AddPlantViewState extends State<AddPlantView> {
+class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver{
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(); // this makes the text field controlled and editable if user wants to edit
-  final _idController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _careInstructionsController = TextEditingController();
-  final _lastWateredController = TextEditingController();
-  final _waterFrequencyController = TextEditingController();
-  final _lastSoilChangeController = TextEditingController();
-  final _soilFrequencyController = TextEditingController();
-  final _lastFertilizedController = TextEditingController();
-  final _fertilizeFrequencyController = TextEditingController();
+  // final _nameController = TextEditingController(); // this makes the text field controlled and editable if user wants to edit
+  // final _idController = TextEditingController();
+  // final _descriptionController = TextEditingController();
+  // final _careInstructionsController = TextEditingController();
+  // final _lastWateredController = TextEditingController();
+  // final _waterFrequencyController = TextEditingController();
+  // final _lastSoilChangeController = TextEditingController();
+  // final _soilFrequencyController = TextEditingController();
+  // final _lastFertilizedController = TextEditingController();
+  // final _fertilizeFrequencyController = TextEditingController();
+  FormData _formData = FormData();
+
+  // void _submitForm() {
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     // Plant newPlant = Plant(
+  //     //   name: _nameController.text,
+  //     //   id: _idController.text,
+  //     //   description: _descriptionController.text,
+  //     //   careInstructions: _careInstructionsController.text,
+  //     //   lastWatered: DateTime.parse(_lastWateredController.text),
+  //     //   waterFrequency: int.parse(_waterFrequencyController.text),
+  //     //   lastSoilChange: DateTime.parse(_lastSoilChangeController.text),
+  //     //   soilFrequency: int.parse(_soilFrequencyController.text),
+  //     //   lastFertilized: DateTime.parse(_lastFertilizedController.text),
+  //     //   fertilizeFrequency: int.parse(_fertilizeFrequencyController.text),
+  //     // );
+  //     FormData formData = FormData();
+  //     formData.updateName(_nameController.text);
+  //     formData.updateId(_idController.text);
+  //     formData.updateDescription(_descriptionController.text);
+  //     formData.updateCareInstructions(_careInstructionsController.text);
+  //     formData.updateLastWatered(DateTime.parse(_lastWateredController.text));
+  //     formData.updateWaterFrequency(int.parse(_waterFrequencyController.text));
+  //     formData.updateLastSoilChange(DateTime.parse(_lastSoilChangeController.text));
+  //     formData.updateLastFertilized(DateTime.parse(_lastFertilizedController.text));
+  //     formData.updateFertilizeFrequency(int.parse(_fertilizeFrequencyController.text));
+  //     Provider.of<PlantList>(context, listen: false).addPlant(newPlant);
+  //   }
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadFormData();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      _saveFormData();
+    }
+  }
+
+  void _loadFormData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _formData.name = prefs.getString('name') ?? '';
+      _formData.id = prefs.getString('id') ?? '';
+      _formData.description = prefs.getString('description') ?? '';
+      _formData.careInstructions = prefs.getString('careInstructions') ?? '';
+      _formData.lastWatered = DateTime.parse(prefs.getString('lastWatered') ?? '');
+      _formData.waterFrequency = prefs.getInt('waterFrequency') ?? 7;
+      _formData.lastSoilChange = DateTime.parse(prefs.getString('lastSoilChange') ?? '');
+      _formData.soilChangeFrequency = prefs.getInt('soilChangeFrequency') ?? 365;
+      _formData.lastFertilized = DateTime.parse(prefs.getString('lastFertilized') ?? '');
+      _formData.fertilizeFrequency = prefs.getInt('fertilizeFrequency') ?? 30;
+    });
+  }
+
+  void _saveFormData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', _formData.name);
+    prefs.setString('id', _formData.id);
+    prefs.setString('description', _formData.description);
+    prefs.setString('careInstructions', _formData.careInstructions);
+    prefs.setString('lastWatered', _formData.lastWatered.toString());
+    prefs.setInt('waterFrequency', _formData.waterFrequency);
+    prefs.setString('lastSoilChange', _formData.lastSoilChange.toString());
+    prefs.setInt('soilChangeFrequency', _formData.soilChangeFrequency);
+    prefs.setString('lastFertilized', _formData.lastFertilized.toString());
+    prefs.setInt('fertilizeFrequency', _formData.fertilizeFrequency);
+  }
+  // void dispose() { 
+  //   // disposing the controllers to free up memory - memory leaks avoided
+  //   _nameController.dispose();
+  //   _idController.dispose();
+  //   _descriptionController.dispose();
+  //   _careInstructionsController.dispose();
+  //   _lastWateredController.dispose();
+  //   _waterFrequencyController.dispose();
+  //   _lastSoilChangeController.dispose();
+  //   _soilFrequencyController.dispose();
+  //   _lastFertilizedController.dispose();
+  //   _fertilizeFrequencyController.dispose();
+  //   super.dispose();
+  // }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Plant newPlant = Plant(
-      //   name: _nameController.text,
-      //   id: _idController.text,
-      //   description: _descriptionController.text,
-      //   careInstructions: _careInstructionsController.text,
-      //   lastWatered: DateTime.parse(_lastWateredController.text),
-      //   waterFrequency: int.parse(_waterFrequencyController.text),
-      //   lastSoilChange: DateTime.parse(_lastSoilChangeController.text),
-      //   soilFrequency: int.parse(_soilFrequencyController.text),
-      //   lastFertilized: DateTime.parse(_lastFertilizedController.text),
-      //   fertilizeFrequency: int.parse(_fertilizeFrequencyController.text),
-      // );
-      FormData formData = FormData();
-      formData.updateName(_nameController.text);
-      formData.updateId(_idController.text);
-      formData.updateDescription(_descriptionController.text);
-      formData.updateCareInstructions(_careInstructionsController.text);
-      formData.updateLastWatered(DateTime.parse(_lastWateredController.text));
-      formData.updateWaterFrequency(int.parse(_waterFrequencyController.text));
-      formData.updateLastSoilChange(DateTime.parse(_lastSoilChangeController.text));
-      formData.updateLastFertilized(DateTime.parse(_lastFertilizedController.text));
-      formData.updateFertilizeFrequency(int.parse(_fertilizeFrequencyController.text));
-      Provider.of<PlantList>(context, listen: false).addPlant(newPlant);
+      _saveFormData();
+      Navigator.of(context).pop(_formData);
     }
-  }
-
-  @override
-  void dispose() { 
-    // disposing the controllers to free up memory - memory leaks avoided
-    _nameController.dispose();
-    _idController.dispose();
-    _descriptionController.dispose();
-    _careInstructionsController.dispose();
-    _lastWateredController.dispose();
-    _waterFrequencyController.dispose();
-    _lastSoilChangeController.dispose();
-    _soilFrequencyController.dispose();
-    _lastFertilizedController.dispose();
-    _fertilizeFrequencyController.dispose();
-    super.dispose();
   }
   
   Plant newPlant = Plant(
