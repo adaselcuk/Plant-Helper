@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'form_data.dart';
 import 'package:provider/provider.dart';
 import 'plant_list.dart';
-import 'package:shared_preferences/shared_preferences';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
