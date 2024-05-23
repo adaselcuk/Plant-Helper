@@ -149,6 +149,8 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
       setState(() {
         newPlant.image = File(image.path);
       });
+    } else {
+      print('No image selected.');
     }
   }
   @override
@@ -357,6 +359,11 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
                 onPressed: _pickImage,
                 child: Text('Add Image'),
               ),
+              SizedBox(height: 20),
+              if (newPlant.image != null)
+                Image.file(newPlant.image!)
+              else
+                Text('No image selected'),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
