@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'form_data.dart';
 import 'package:provider/provider.dart';
 import 'plant_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPlantView extends StatefulWidget {
   final Function(Plant) addPlant;
@@ -129,6 +128,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _saveFormData();
+      Provider.of<PlantList>(context, listen: false).addPlant(newPlant);
       Navigator.of(context).pop(_formData);
     }
   }
@@ -144,13 +144,17 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker(); //underscore in Dart represents the variable is private
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery); // XFile because can get path from the file class
-    if (image != null) {
-      setState(() {
-        newPlant.image = File(image.path);
-      });
-    } else {
-      print('No image selected.');
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery); // XFile because can get path from the file class
+      if (image != null) {
+        setState(() {
+          newPlant.image = File(image.path);
+        });
+      } else {
+        print('No image selected.');
+      }
+    } catch (e) {
+      print('Error picking image: $e');
     }
   }
   @override

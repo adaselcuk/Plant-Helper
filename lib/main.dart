@@ -5,6 +5,7 @@ import 'add_plant_view.dart';
 import 'form_data.dart';
 import 'plant_list.dart';
 import 'package:provider/provider.dart';
+import 'homescreen.dart';
 
 void main() {
   runApp(
@@ -52,11 +53,7 @@ class PlantHelperApp extends StatelessWidget {
         appBar: AppBar (
           title: Text('Plant Helper'),
         ),
-        body: AddPlantView(
-          addPlant: (Plant plant) {
-            Provider.of<PlantList>(context, listen: false).addPlant(plant);
-          },
-        ),
+        body: HomeScreen(),
       ),
     );
   }
