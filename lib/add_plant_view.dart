@@ -62,6 +62,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
   @override
   void initState() {
+    // to load the form data when the app is opened
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _loadFormData();
@@ -69,6 +70,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
 
   @override
   void dispose() {
+    // to save the form data when the app is closed
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -81,6 +83,7 @@ class _AddPlantViewState extends State<AddPlantView> with WidgetsBindingObserver
   }
 
   void _loadFormData() async {
+    // to load the form data when the app is opened
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _formData.name = prefs.getString('name') ?? '';
