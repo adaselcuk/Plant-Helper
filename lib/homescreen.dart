@@ -14,13 +14,14 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   Map<DateTime, List> _events = {};
+  List<dynamic> _selectedEvents = [];
 
   void generateEvents(int wateringFrequency, int fertilizingFrequency, int soilChangeFrequency) {
     DateTime now = DateTime.now();
-    DateTime oneMonthFromNow = DateTime(now.year, now.month + 1, now.day);
+    DateTime endOfMonth= DateTime(now.year, now.month + 1, 0);
 
-    for (int i = 0; i <= oneMonthFromNow.difference(now).inDays; i++) {
-      DateTime day = DateTime(now.year, now.month, now.day + i);
+    for (int i = 0; i <= endOfMonth.day; i++) {
+      DateTime day = DateTime(now.year, now.month, i);
 
       List<String> events = [];
 
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Plant Helper'),
+        title: Text('Calendar View'),
       ),
       body: TableCalendar(
         firstDay: DateTime.utc(2024, 1, 1),
@@ -59,9 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
           return isSameDay(_selectedDay, day);
         },
         onDaySelected: (selectedDay, focusedDay) {
+          if (_events[selectedDay] == null || _events[selectedDay]!.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('No events for this day')),
+            );
+          }
           setState(() {
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
+            _selectedEvents = _events[selectedDay] ?? [];
           });
         },
         eventLoader: (day) {
@@ -73,13 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
               return Positioned(
                 bottom: 1,
                 child: Row(
-                  children: events.map((event) {
+                  mainAxisSize: MainAxisSize.min,
+                  children: events.map<Widget>((event) {
                     if (event == 'watering') {
-                      return Icon(Icons.opacity, size: 10.0);
+                      return Icon(Icons.opacity, size: 20.0);
                     } else if (event == 'fertilizing') {
-                      return Icon(Icons.eco, size: 10.0);
+                      return Icon(Icons.eco, size: 20.0);
                     } else if (event == 'soil change') {
-                      return Icon(Icons.grass, size: 10.0);
+                      return Icon(Icons.grass, size: 20.0);
                     } else{
                       return Container();
                     }
@@ -88,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             return Container();
-          }
+          },
         ),
         onFormatChanged: (format) {
           setState(() {
@@ -100,13 +108,17 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 16.0),
+        padding: EdgeInsets.only(bottom: 60.0),
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddPlantView(addPlant: (plant) {
                 Provider.of<PlantList>(context, listen: false).addPlant(plant);
+                int waterFrequency = plant.waterFrequency ?? 7;
+                int fertilizeFrequency = plant.fertilizeFrequency ?? 30;
+                int soilChangeFrequency = plant.soilFrequency ?? 365;
+                generateEvents(waterFrequency, fertilizeFrequency, soilChangeFrequency);
                 Navigator.pop(context);
               }
               )),
