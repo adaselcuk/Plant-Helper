@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'add_plant_view.dart';
 import 'plant_list.dart';
 import 'form_data.dart';
+import 'plant.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,10 +13,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.week;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, List> _events = {};
+  Map<DateTime, List<Plant>> _events = {};
   List<dynamic> _selectedEvents = [];
 
   void generateEvents(int wateringFrequency, int fertilizingFrequency, int soilChangeFrequency) {
